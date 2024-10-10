@@ -9,10 +9,15 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 50
+GOOMBA_WIDTH = 40
+GOOMBA_HEIGHT = 40
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
+RED = (255,0,0)
 GRAVITY = 0.5
-JUMP_STRENGTH = 10
+JUMP_STRENGTH = 25
+PLAYER_SPEED = 5
+GOOMBA_SPEED = 3
 
 # Display the Moutons
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -31,7 +36,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
         self.velocity_y = 0
         self.is_jumping = False
-
+        self.health = 3 # Player starts with 3 Health Points
+        
     def update(self):
         keys = pygame.key.get_pressed()
 
@@ -46,24 +52,52 @@ class Player(pygame.sprite.Sprite):
             self.velocity_y = -JUMP_STRENGTH
             self.is_jumping = True
 
-        # Apply Mottier difficulty(gravitÃ©)
+        # Apply Mottier difficulty(gravity)
         self.velocity_y += GRAVITY
         self.rect.y += self.velocity_y
 
-        # No screen escaping boi
+        # No screen escaping
         if self.rect.y >= SCREEN_HEIGHT - PLAYER_HEIGHT:
             self.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
             self.is_jumping = False
             self.velocity_y = 0
 
-# Create player
+    def take_damage(self):
+        if self.health > 0 :
+            self.health -= 1
+            
+# Class Goomba
+class Goomba(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.Surface((GOOMBA_WIDTH,GOOMBA_HEIGHT))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.rect_x = 100
+        self.rect_y = SCREEN_HEIGHT - GOOMBA_HEIGHT
+        self.direction = 1 # start by moving to the right
+        self.alive = True # Goomba débute en vie ( c'est un peu mieux qu'il soit vivant a la base)
+        
+    def update(self):
+        if self.alive:
+            self.rect_x += self.direction*GOOMBA_SPEED # retourne le goomba si bonk mur
+        if self.rect.right >= SCREEN_WIDTH or self.rect.left <= 0:
+            self.direction *= -1 # change la direction
+            
+    def die(self):
+        self.alive = False
+        self.kill() # delete goomba when dead
+        
+# Create player and Goomba
 player = Player()
+goomba = Goomba()
 
 # Sprite group
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
+all_sprites.add(goomba)
 
-# Game loop
+# Game
 running = True
 while running:
     for event in pygame.event.get():
@@ -72,16 +106,28 @@ while running:
 
     # Update sprites
     all_sprites.update()
-
+    
+    if pygame.sprite.collide_rect(player,goomba) and goomba.alive :
+        if player.rect.bottom <= goomba.rect.top + 10 and player.velocity_y > 0 :
+            goomba.die() # A mort le goomba
+            player.velocity_y = -JUMP_STRENGTH # player bounces off goomba
+        elif  player.rect.bottom > goomba.rect.top + 10 :
+            player.take_damage()
+            
     # Draw everything
     screen.fill(WHITE)
     all_sprites.draw(screen)
-
+    
     # Update the display
     pygame.display.flip()
 
     # Frame rate
     clock.tick(60)
+
+    # Game Over
+    if player.health <= 0 :
+        print("Game Over !")
+        running = False
 
 # Quit pygame
 pygame.quit()
