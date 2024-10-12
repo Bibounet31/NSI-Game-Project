@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-# Initialisztion pygame
+# Initialisztion pygame 
 pygame.init()
 
 # Constantes
