@@ -3,6 +3,7 @@ import sys
 
 pygame.init()
 
+# Initialisation des constantes
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 1200
 PLAYER_WIDTH = 50
@@ -32,10 +33,12 @@ PLAYER_SPEED = 5
 GOOMBA_SPEED = 3
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Moveable Character with Key, Door, Spikes, and Trampolines")
+pygame.display.set_caption("Mario_De_Wish.exe")
 
+# Pour les images par secondes
 clock = pygame.time.Clock()
 
+# Class Platforme
 class Platform(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         super().__init__()
@@ -45,10 +48,13 @@ class Platform(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+# Class Trampoline
 class Trampoline(Platform): 
     def __init__(self, x, y):
         super().__init__(x, y, PLATFORM_WIDTH, TRAMPOLINE_HEIGHT)  
         self.image.fill(BLUE)  
+
+# Class Spike        
 class Spike(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
@@ -58,6 +64,7 @@ class Spike(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+# Class Player
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -72,6 +79,7 @@ class Player(pygame.sprite.Sprite):
         self.on_ground = False
         self.has_key = False
 
+    # Update mouvements Player selon la situation
     def update(self, platforms):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_q] and self.rect.x > 0:
@@ -90,6 +98,7 @@ class Player(pygame.sprite.Sprite):
             self.on_ground = True
             self.velocity_y = 0
 
+    # J'ai passé beaucoup trop de temps sur des platformes en bois
     def handle_platform_collisions(self, platforms):
         self.on_ground = False
         for platform in platforms:
@@ -102,15 +111,18 @@ class Player(pygame.sprite.Sprite):
                         self.velocity_y = 0
                         self.on_ground = True
 
+    # Player peut mourir
     def take_damage(self):
         if self.health > 0:
             self.health -= 1
 
+    # Collecting Key
     def collect_key(self, key):
         if pygame.sprite.collide_rect(self, key):
             self.has_key = True
             key.kill()
 
+# Class Goomba
 class Goomba(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -123,6 +135,7 @@ class Goomba(pygame.sprite.Sprite):
         self.alive = True
         self.velocity_y = 0
 
+    # Update mouvements Goomba selon la situation
     def update(self, platforms):
         if self.alive:
             self.rect.x += self.direction * GOOMBA_SPEED
@@ -143,6 +156,7 @@ class Goomba(pygame.sprite.Sprite):
         self.alive = False
         self.kill()
 
+# Class Clé
 class Key(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
@@ -152,6 +166,7 @@ class Key(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+# Class Porte
 class Door(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
@@ -162,6 +177,7 @@ class Door(pygame.sprite.Sprite):
         self.rect.y = y
         self.locked = True
 
+    # ouverture de la porte fermée
     def unlock(self, player):
         if self.locked and pygame.sprite.collide_rect(self, player) and player.has_key:
             keys = pygame.key.get_pressed()
@@ -175,6 +191,7 @@ class Door(pygame.sprite.Sprite):
         if self.locked and pygame.sprite.collide_rect(self, player):
             if player.rect.right > self.rect.left:
                 player.rect.right = self.rect.left
+
 # Create Player, Goomba, Key and Door
 player = Player()
 goomba = Goomba()
@@ -185,7 +202,7 @@ platforms = pygame.sprite.Group()
 spikes = pygame.sprite.Group()
 trampolines = pygame.sprite.Group()
 
-# Create Platforms
+# Creation des Platforms
 platform1 = Platform(600, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform2 = Platform(400, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform3 = Platform(950, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
@@ -205,7 +222,7 @@ platform16 = Platform(200, 250, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 
 platforms.add(platform1, platform2, platform3, platform4, platform5, platform6, platform7, platform8, platform9, platform10, platform11, platform12, platform13, platform14, platform15, platform16)
 
-# create Spikes
+# Creation des Spikes
 spike1 = Spike(580, 870)#
 spike2 = Spike(610, 870)#
 spike3 = Spike(550, 870)#
@@ -224,7 +241,7 @@ spike15 = Spike(1180, 1170)#
 
 spikes.add(spike1, spike2, spike3, spike4, spike5, spike6, spike7, spike8, spike9, spike10, spike11, spike12, spike13, spike14, spike15)
 
-# Create trampolines + add to sprites
+# Creation trampolines + add to sprites
 trampoline1 = Trampoline(800, 600)
 
 trampolines.add(trampoline1)
@@ -241,6 +258,7 @@ all_sprites.add(trampolines)
 running = True
 scene_changed = False
 
+# Changement de scene ( qui marche pas ) 
 def create_new_scene():
     global scene_changed
     all_sprites.empty()
@@ -258,6 +276,7 @@ def create_new_scene():
     all_sprites.add(player, goomba, platforms, spikes, trampolines)
     scene_changed = True
 
+# Game Loop
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -278,18 +297,21 @@ while running:
     if pygame.sprite.spritecollideany(player, spikes):
         player.take_damage()
     
+    # Trampoline Bounce power
     for trampoline in trampolines:
         if pygame.sprite.collide_rect(player, trampoline) and player.velocity_y > 0:
             player.velocity_y = -JUMP_STRENGTH - 12  
     screen.fill(LIGHT_GRAY)
     all_sprites.draw(screen)
 
+    # Display
     font = pygame.font.SysFont(None, 36)
     health_text = font.render(f"Health: {player.health}", True, (0, 0, 0))
     screen.blit(health_text, (10, 10))
     pygame.display.flip()
     clock.tick(60)
 
+    # End the game if dead
     if player.health <= 0:
         print("Game Over!")
         running = False
