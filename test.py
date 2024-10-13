@@ -116,11 +116,16 @@ class Player(pygame.sprite.Sprite):
         if self.health > 0:
             self.health -= 1
 
-    # Collecting Key
     def collect_key(self, key):
-        if pygame.sprite.collide_rect(self, key):
-            self.has_key = True
-            key.kill()
+        if key is not None and pygame.sprite.collide_rect(self, key):
+        self.has_key = True
+        key.kill()
+
+
+    # def collect_key(self, key):
+    #     if pygame.sprite.collide_rect(self, key):
+    #         self.has_key = True
+    #         key.kill()
 
 # Class Goomba
 class Goomba(pygame.sprite.Sprite):
