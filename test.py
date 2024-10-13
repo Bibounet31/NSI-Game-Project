@@ -15,12 +15,13 @@ KEY_WIDTH = 30
 KEY_HEIGHT = 30
 DOOR_WIDTH = 50
 DOOR_HEIGHT = 100
-WHITE = (255, 255, 255)
-BLUE = (0, 0, 255)
-RED = (255, 0, 0)
-BROWN = (139, 69, 19)
-YELLOW = (255, 255, 0)
-GRAY = (169, 169, 169)
+WHITE = (255,255,255)
+BLUE = (0,0,255)
+RED = (255,0,0)
+BROWN = (139,69,19)
+YELLOW = (255,255,0)
+GRAY = (70,64,64)
+LIGHT_GRAY = (179,179,179)
 GRAVITY = 0.5
 JUMP_STRENGTH = 11
 PLAYER_SPEED = 5
@@ -122,6 +123,14 @@ class Goomba(pygame.sprite.Sprite):
         self.alive = False
         self.kill()
 
+    def reset(self):
+        self.alive = True
+        self.rect.x = 50
+        self.rect.y = 50
+        self.direction = 1
+        self.velocity_y = 0
+        all_sprites.add(self)
+
 class Key(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
@@ -185,19 +194,18 @@ def create_new_scene():
     platforms.empty()
     player.rect.x = SCREEN_WIDTH // 2
     player.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
-    goomba.rect.x = 50
-    goomba.rect.y = 50
-    goomba.velocity_y = 0
+    goomba.reset()
     platform1 = Platform(350, 375, PLATFORM_WIDTH, PLATFORM_HEIGHT)
     platform2 = Platform(500, 275, PLATFORM_WIDTH, PLATFORM_HEIGHT)
     platform3 = Platform(600, 480, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-    platform4 = Platform(700, 170, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform4 = Platform(700, 220, PLATFORM_WIDTH, PLATFORM_HEIGHT)
     platform5 = Platform(200, 200, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-    platform_roof = Platform(700, 60, PLATFORM_WIDTH, 20)
+    platform_roof = Platform(700, 110, PLATFORM_WIDTH, 20)
     new_key = Key(275, 150)
-    new_door = Door(725, 75)
+    new_door = Door(725, 125)
     platforms.add(platform1, platform2, platform3, platform4, platform5, platform_roof)
-    all_sprites.add(player, goomba, platform1, platform2, platform3, platform4, platform5, platform_roof, new_key, new_door)
+    all_sprites.add(player, platform1, platform2, platform3, platform4, platform5, platform_roof, new_key, new_door)
+
     scene_changed = True
 
 while running:
@@ -216,10 +224,10 @@ while running:
         if player.rect.bottom <= goomba.rect.top + 50 and player.velocity_y > 0:
             goomba.die()
             player.velocity_y = -JUMP_STRENGTH
-        elif player.rect.bottom > goomba.rect.top + 50:
+        elif player.rect.bottom > goomba.rect.top + 10:
             player.take_damage()
 
-    screen.fill(WHITE)
+    screen.fill(LIGHT_GRAY)
     all_sprites.draw(screen)
     font = pygame.font.SysFont(None, 36)
     health_text = font.render(f"Health: {player.health}", True, (0, 0, 0))
