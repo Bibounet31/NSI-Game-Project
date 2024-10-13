@@ -118,9 +118,8 @@ class Player(pygame.sprite.Sprite):
 
     def collect_key(self, key):
         if key is not None and pygame.sprite.collide_rect(self, key):
-        self.has_key = True
-        key.kill()
-
+            self.has_key = True
+            key.kill()
 
     # def collect_key(self, key):
     #     if pygame.sprite.collide_rect(self, key):
