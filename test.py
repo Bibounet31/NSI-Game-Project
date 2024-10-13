@@ -268,17 +268,29 @@ def create_new_scene():
     all_sprites.empty()
     platforms.empty()
     spikes.empty()
-    trampolines.empty()  
+    trampolines.empty()
+
+    # Réinitialisation de la position du joueur et du Goomba
     player.rect.x = SCREEN_WIDTH // 2
     player.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
     goomba.rect.x = 50
     goomba.rect.y = 50
     goomba.velocity_y = 0
-    platforms.add(platform1, platform2, platform3, platform4, platform5, platform6, platform7, platform8, platform9, platform10, platform11, platform12, platform13, platform14, platform15, platform16)
-    spikes.add(spike1, spike2, spike3, spike4, spike5, spike6, spike7, spike8, spike9, spike10, spike11, spike12, spike13, spike14, spike15)
-    trampolines.add(trampoline1)  
+    platform1 = Platform(200, 1000, PLATFORM_WIDTH, PLATFORM_HEIGHT)    # A CHANGER !! 
+    platform2 = Platform(400, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform3 = Platform(600, 600, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform4 = Platform(800, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform5 = Platform(1000, 200, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platforms.add(platform1, platform2, platform3, platform4, platform5)
+    new_spike1 = Spike(250, 970)
+    new_spike2 = Spike(450, 770)
+    new_spike3 = Spike(650, 570)
+    spikes.add(new_spike1, new_spike2, new_spike3)
+    new_trampoline1 = Trampoline(500, 300)
+    trampolines.add(new_trampoline1)
     all_sprites.add(player, goomba, platforms, spikes, trampolines)
     scene_changed = True
+
 
 # Game Loop
 while running:
