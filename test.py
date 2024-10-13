@@ -3,32 +3,36 @@ import sys
 
 pygame.init()
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1600
+SCREEN_HEIGHT = 1200
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 50
 GOOMBA_WIDTH = 40
 GOOMBA_HEIGHT = 40
 PLATFORM_WIDTH = 200
 PLATFORM_HEIGHT = 20
+TRAMPOLINE_HEIGHT = 10  
 KEY_WIDTH = 30
 KEY_HEIGHT = 30
 DOOR_WIDTH = 50
 DOOR_HEIGHT = 100
+SPIKE_WIDTH = 30
+SPIKE_HEIGHT = 30
 WHITE = (255,255,255)
 BLUE = (0,0,255)
 RED = (255,0,0)
 BROWN = (139,69,19)
 YELLOW = (255,255,0)
+LIGHT_GRAY = (169,169,169)
 GRAY = (70,64,64)
-LIGHT_GRAY = (179,179,179)
+BLACK = (0,0,0)
 GRAVITY = 0.5
 JUMP_STRENGTH = 11
 PLAYER_SPEED = 5
 GOOMBA_SPEED = 3
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Moveable Character with Key and Door")
+pygame.display.set_caption("Moveable Character with Key, Door, Spikes, and Trampolines")
 
 clock = pygame.time.Clock()
 
@@ -37,6 +41,19 @@ class Platform(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.Surface((width, height))
         self.image.fill(BROWN)
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+class Trampoline(Platform): 
+    def __init__(self, x, y):
+        super().__init__(x, y, PLATFORM_WIDTH, TRAMPOLINE_HEIGHT)  
+        self.image.fill(BLUE)  
+class Spike(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pygame.Surface((SPIKE_WIDTH, SPIKE_HEIGHT), pygame.SRCALPHA)
+        pygame.draw.polygon(self.image, BLACK, [(0, SPIKE_HEIGHT), (SPIKE_WIDTH // 2, 0), (SPIKE_WIDTH, SPIKE_HEIGHT)])
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -78,9 +95,12 @@ class Player(pygame.sprite.Sprite):
         for platform in platforms:
             if self.rect.colliderect(platform.rect):
                 if self.velocity_y > 0 and self.rect.bottom <= platform.rect.top + 50:
-                    self.rect.bottom = platform.rect.top
-                    self.velocity_y = 0
-                    self.on_ground = True
+                    if isinstance(platform, Trampoline):
+                        self.velocity_y = -JUMP_STRENGTH - 20  
+                    else:
+                        self.rect.bottom = platform.rect.top
+                        self.velocity_y = 0
+                        self.on_ground = True
 
     def take_damage(self):
         if self.health > 0:
@@ -123,14 +143,6 @@ class Goomba(pygame.sprite.Sprite):
         self.alive = False
         self.kill()
 
-    def reset(self):
-        self.alive = True
-        self.rect.x = 50
-        self.rect.y = 50
-        self.direction = 1
-        self.velocity_y = 0
-        all_sprites.add(self)
-
 class Key(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
@@ -155,7 +167,6 @@ class Door(pygame.sprite.Sprite):
             keys = pygame.key.get_pressed()
             if keys[pygame.K_e]:
                 self.locked = False
-                print("Door unlocked!")
                 self.image.fill((0, 255, 0))
                 return True
         return False
@@ -164,62 +175,99 @@ class Door(pygame.sprite.Sprite):
         if self.locked and pygame.sprite.collide_rect(self, player):
             if player.rect.right > self.rect.left:
                 player.rect.right = self.rect.left
-
+# Create Player, Goomba, Key and Door
 player = Player()
 goomba = Goomba()
-key = Key(350, 250)
-door = Door(700, SCREEN_HEIGHT - DOOR_HEIGHT)
+key = Key(380, 200)
+door = Door(1550, SCREEN_HEIGHT - DOOR_HEIGHT)
 
 platforms = pygame.sprite.Group()
-platform1 = Platform(300, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-platform2 = Platform(400, 300, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-platform3 = Platform(600, 500, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-platforms.add(platform1, platform2, platform3)
+spikes = pygame.sprite.Group()
+trampolines = pygame.sprite.Group()
+
+# Create Platforms
+platform1 = Platform(600, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform2 = Platform(400, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform3 = Platform(950, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform4 = Platform(1050, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform5 = Platform(0, 1100, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform6 = Platform(1200, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform7 = Platform(1400, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform8 = Platform(1500, 600, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform9 = Platform(1500, 500, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform10 = Platform(1400, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform11 = Platform(200, 1000, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform12 = Platform(1200, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform13 = Platform(1000, 300, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform14 = Platform(600, 150, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform15 = Platform(400, 250, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform16 = Platform(200, 250, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+
+platforms.add(platform1, platform2, platform3, platform4, platform5, platform6, platform7, platform8, platform9, platform10, platform11, platform12, platform13, platform14, platform15, platform16)
+
+# create Spikes
+spike1 = Spike(580, 870)#
+spike2 = Spike(610, 870)#
+spike3 = Spike(550, 870)#
+spike4 = Spike(1350, 370)#
+spike5 = Spike(1380, 370)#
+spike6 = Spike(1410, 370)#
+spike7 = Spike(1120, 870)#
+spike8 = Spike(1220, 770)#
+spike9 = Spike(1320, 670)#
+spike10 = Spike(1350, 670)#
+spike11 = Spike(1380, 670)#
+spike12 = Spike(570, 220)#
+spike13 = Spike(1120, 1170)#
+spike14 = Spike(1150, 1170)#
+spike15 = Spike(1180, 1170)#
+
+spikes.add(spike1, spike2, spike3, spike4, spike5, spike6, spike7, spike8, spike9, spike10, spike11, spike12, spike13, spike14, spike15)
+
+# Create trampolines + add to sprites
+trampoline1 = Trampoline(800, 600)
+
+trampolines.add(trampoline1)
 
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 all_sprites.add(goomba)
 all_sprites.add(key)
 all_sprites.add(door)
-all_sprites.add(platform1, platform2, platform3)
+all_sprites.add(platforms)
+all_sprites.add(spikes)
+all_sprites.add(trampolines)  
 
 running = True
 scene_changed = False
-new_key = None
-new_door = None
 
 def create_new_scene():
-    global scene_changed, new_key, new_door
+    global scene_changed
     all_sprites.empty()
     platforms.empty()
+    spikes.empty()
+    trampolines.empty()  
     player.rect.x = SCREEN_WIDTH // 2
     player.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
-    goomba.reset()
-    platform1 = Platform(350, 375, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-    platform2 = Platform(500, 275, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-    platform3 = Platform(600, 480, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-    platform4 = Platform(700, 220, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-    platform5 = Platform(200, 200, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-    platform_roof = Platform(700, 110, PLATFORM_WIDTH, 20)
-    new_key = Key(275, 150)
-    new_door = Door(725, 125)
-    platforms.add(platform1, platform2, platform3, platform4, platform5, platform_roof)
-    all_sprites.add(player, platform1, platform2, platform3, platform4, platform5, platform_roof, new_key, new_door)
-
+    goomba.rect.x = 50
+    goomba.rect.y = 50
+    goomba.velocity_y = 0
+    platforms.add(platform1, platform2, platform3, platform4, platform5, platform6, platform7, platform8, platform9, platform10, platform11, platform12, platform13, platform14, platform15, platform16)
+    spikes.add(spike1, spike2, spike3, spike4, spike5, spike6, spike7, spike8, spike9, spike10, spike11, spike12, spike13, spike14, spike15)
+    trampolines.add(trampoline1)  
+    all_sprites.add(player, goomba, platforms, spikes, trampolines)
     scene_changed = True
 
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
     player.update(platforms)
     goomba.update(platforms)
-    player.collect_key(new_key if scene_changed else key)
-    if (new_door if scene_changed else door).unlock(player) and not scene_changed:
+    player.collect_key(key if not scene_changed else None)
+    if door.unlock(player) and not scene_changed:
         create_new_scene()
-    (new_door if scene_changed else door).check_locked(player)
-
+    door.check_locked(player)
     if pygame.sprite.collide_rect(player, goomba) and goomba.alive:
         if player.rect.bottom <= goomba.rect.top + 50 and player.velocity_y > 0:
             goomba.die()
@@ -227,8 +275,15 @@ while running:
         elif player.rect.bottom > goomba.rect.top + 10:
             player.take_damage()
 
+    if pygame.sprite.spritecollideany(player, spikes):
+        player.take_damage()
+    
+    for trampoline in trampolines:
+        if pygame.sprite.collide_rect(player, trampoline) and player.velocity_y > 0:
+            player.velocity_y = -JUMP_STRENGTH - 12  
     screen.fill(LIGHT_GRAY)
     all_sprites.draw(screen)
+
     font = pygame.font.SysFont(None, 36)
     health_text = font.render(f"Health: {player.health}", True, (0, 0, 0))
     screen.blit(health_text, (10, 10))
