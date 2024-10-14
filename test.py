@@ -5,7 +5,7 @@ pygame.init()
 
 # Initialisation des constantes
 SCREEN_WIDTH = 1600
-SCREEN_HEIGHT = 1200
+SCREEN_HEIGHT = 1000
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 50
 GOOMBA_WIDTH = 40
@@ -207,19 +207,19 @@ spikes = pygame.sprite.Group()
 trampolines = pygame.sprite.Group()
 
 # Creation des Platforms
-platform1 = Platform(600, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform2 = Platform(400, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform3 = Platform(950, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform4 = Platform(1050, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform5 = Platform(0, 1100, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform1 = Platform(0, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform2 = Platform(0, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform3 = Platform(200, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform4 = Platform(500, 825, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform5 = Platform(800, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform6 = Platform(1200, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform7 = Platform(1400, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform8 = Platform(1500, 600, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform9 = Platform(1500, 500, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform10 = Platform(1400, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform11 = Platform(200, 1000, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform11 = Platform(1000,300, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform12 = Platform(1200, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform13 = Platform(1000, 300, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform13 = Platform(1000, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform14 = Platform(600, 150, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform15 = Platform(400, 250, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform16 = Platform(200, 250, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
@@ -227,21 +227,21 @@ platform16 = Platform(200, 250, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platforms.add(platform1, platform2, platform3, platform4, platform5, platform6, platform7, platform8, platform9, platform10, platform11, platform12, platform13, platform14, platform15, platform16)
 
 # Creation des Spikes
-spike1 = Spike(580, 870)#
-spike2 = Spike(610, 870)#
-spike3 = Spike(550, 870)#
-spike4 = Spike(1350, 370)#
-spike5 = Spike(1380, 370)#
+spike1 = Spike(500, 795)#
+spike2 = Spike(670, 795)#
+spike3 = Spike(1000, 770)#
+spike4 = Spike(970, 770)#
+spike5 = Spike(1030, 770)#
 spike6 = Spike(1410, 370)#
-spike7 = Spike(1120, 870)#
-spike8 = Spike(1220, 770)#
+spike7 = Spike(1150, 970)
+spike8 = Spike(1170, 770)#
 spike9 = Spike(1320, 670)#
 spike10 = Spike(1350, 670)#
 spike11 = Spike(1380, 670)#
 spike12 = Spike(570, 220)#
-spike13 = Spike(1120, 1170)#
-spike14 = Spike(1150, 1170)#
-spike15 = Spike(1180, 1170)#
+spike13 = Spike(1380, 370)#
+spike14 = Spike(1350, 370)#
+spike15 = Spike(1180, 970 )#
 
 spikes.add(spike1, spike2, spike3, spike4, spike5, spike6, spike7, spike8, spike9, spike10, spike11, spike12, spike13, spike14, spike15)
 
