@@ -306,7 +306,7 @@ while running:
     if pygame.sprite.collide_rect(player, goomba) and goomba.alive:
         if player.rect.bottom <= goomba.rect.top + 50 and player.velocity_y > 0:
             goomba.die()
-            player.velocity_y = -JUMP_STRENGTH
+            player.velocity_y = -JUMP_STRENGTH + 2
         elif player.rect.bottom > goomba.rect.top + 10:
             player.take_damage()
 
