@@ -223,8 +223,9 @@ platform13 = Platform(1000, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform14 = Platform(600, 150, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform15 = Platform(400, 250, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 platform16 = Platform(200, 250, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform17 =  Platform(800, 610, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
 
-platforms.add(platform1, platform2, platform3, platform4, platform5, platform6, platform7, platform8, platform9, platform10, platform11, platform12, platform13, platform14, platform15, platform16)
+platforms.add(platform1, platform2, platform3, platform4, platform5, platform6, platform7, platform8, platform9, platform10, platform11, platform12, platform13, platform14, platform15, platform16, platform17)
 
 # Creation des Spikes
 spike1 = Spike(500, 795)#
@@ -242,8 +243,11 @@ spike12 = Spike(570, 220)#
 spike13 = Spike(1380, 370)#
 spike14 = Spike(1350, 370)#
 spike15 = Spike(1180, 970 )#
+spike16 = Spike(0, 770)#
+spike17 = Spike(30, 770)#
+spike18 = Spike(0, 870)#
 
-spikes.add(spike1, spike2, spike3, spike4, spike5, spike6, spike7, spike8, spike9, spike10, spike11, spike12, spike13, spike14, spike15)
+spikes.add(spike1, spike2, spike3, spike4, spike5, spike6, spike7, spike8, spike9, spike10, spike11, spike12, spike13, spike14, spike15, spike16, spike17, spike18)
 
 # Creation trampolines + add to sprites
 trampoline1 = Trampoline(800, 600)
@@ -271,24 +275,89 @@ def create_new_scene():
     trampolines.empty()
 
     # Réinitialisation de la position du joueur et du Goomba
-    player.rect.x = SCREEN_WIDTH // 2
-    player.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
+    player.rect.x = 250
+    player.rect.y = 990
     goomba.rect.x = 50
     goomba.rect.y = 50
     goomba.velocity_y = 0
-    platform1 = Platform(200, 1000, PLATFORM_WIDTH, PLATFORM_HEIGHT)    # A CHANGER !! 
-    platform2 = Platform(400, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-    platform3 = Platform(600, 600, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-    platform4 = Platform(800, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-    platform5 = Platform(1000, 200, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-    platforms.add(platform1, platform2, platform3, platform4, platform5)
-    new_spike1 = Spike(250, 970)
-    new_spike2 = Spike(450, 770)
-    new_spike3 = Spike(650, 570)
-    spikes.add(new_spike1, new_spike2, new_spike3)
-    new_trampoline1 = Trampoline(500, 300)
+    platform1 = Platform(0, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)# 
+    platform2 = Platform(0, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platform3 = Platform(0, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platform4 = Platform(0, 600, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platform5 = Platform(0, 500, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platform6 = Platform(0, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platform7 = Platform(0, 300, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platform8 = Platform(1400,910,PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platform10 = Platform(1400, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platform11 = Platform(900,600, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platform12 = Platform(1200, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platform13 = Platform(600, 100, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platform14 = Platform(600, 925, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platform15 = Platform(400, 200, PLATFORM_WIDTH, PLATFORM_HEIGHT)# 
+    platform16 = Platform(200, 200, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platforms.add(platform1, platform2, platform3, platform4, platform5, platform6, platform7,platform8, platform10, platform11, platform12, platform13, platform14, platform15, platform16)
+    new_spike1 = Spike(170, 270)
+    new_spike2 = Spike(430, 970)
+    new_spike3 = Spike(460, 970)
+    new_spike4 = Spike(490, 970)
+    new_spike5 = Spike(520, 970)
+    new_spike6 = Spike(550, 970)
+    new_spike7 = Spike(580, 970)
+    new_spike8 = Spike(820, 970)
+    new_spike9 = Spike(850, 970)
+    new_spike10 = Spike(880, 970)
+    new_spike11 = Spike(910, 970)
+    new_spike12 = Spike(940, 970)
+    new_spike13 = Spike(970, 970)
+    new_spike14 = Spike(1000, 970)
+    new_spike15 = Spike(1030, 970)
+    new_spike16 = Spike(1060, 970)
+    new_spike17 = Spike(1090, 970)
+    new_spike18 = Spike(1120, 970)
+    new_spike19 = Spike(1150, 970)
+    new_spike20 = Spike(1180, 970)
+    new_spike21 = Spike(1210, 970)
+    new_spike22 = Spike(1240, 970)
+    new_spike23 = Spike(1270, 970)
+    new_spike24 = Spike(1300, 970)
+    new_spike25 = Spike(1330, 970)
+    new_spike26 = Spike(1360, 970)
+    new_spike27 = Spike(1390, 970)
+    new_spike28 = Spike(1420, 970)
+    new_spike29 = Spike(1450, 970)
+    new_spike30 = Spike(1480, 970)
+    new_spike31 = Spike(1510, 970)
+    new_spike32 = Spike(1540, 970)
+    new_spike33 = Spike(1570, 970)#
+    new_spike34 = Spike(790, 970)
+    new_spike35 = Spike(760, 970)
+    new_spike36 = Spike(730, 970)
+    new_spike37 = Spike(700, 970)
+    new_spike38 = Spike(670, 970)
+    new_spike39 = Spike(640, 970)
+    new_spike40 = Spike(610, 970)
+    new_spike41 = Spike(0, 370)
+    new_spike42 = Spike(170, 570)
+    new_spike43 = Spike(170, 770)
+    new_spike44 = Spike(0, 770)
+    new_spike45 = Spike(0, 570)
+    new_spike46 = Spike(170, 370)
+    new_spike47 = Spike(1200, 370)
+    new_spike48 = Spike(1230, 370)
+    new_spike49 = Spike(50, 470)
+    new_spike50 = Spike(120, 670)
+    new_spike51 = Spike(380, 170)
+    new_spike52 = Spike(410, 170)
+    new_spike53 = Spike(570, 170)
+    new_spike54 = Spike(770, 70)
+    spikes.add(new_spike1, new_spike2, new_spike3, new_spike4, new_spike5, new_spike6, new_spike7, new_spike8, new_spike9, new_spike10, new_spike11, new_spike12, new_spike13, new_spike14, new_spike15, new_spike16, new_spike17, new_spike18, new_spike19, new_spike20, new_spike21, new_spike22, new_spike23, new_spike24, new_spike25, new_spike26, new_spike27, new_spike28, new_spike29, new_spike30, new_spike31, new_spike32, new_spike33, new_spike34, new_spike35, new_spike36, new_spike37, new_spike38, new_spike39, new_spike40, new_spike41, new_spike42, new_spike43, new_spike44, new_spike45, new_spike46, new_spike47, new_spike48, new_spike49, new_spike50, new_spike51, new_spike52, new_spike53, new_spike54)
+    new_trampoline1 = Trampoline(1400,900)
+    key2 = Key(680,870)
+    door2 = Door(1550,300)
     trampolines.add(new_trampoline1)
     all_sprites.add(player, goomba, platforms, spikes, trampolines)
+    all_sprites.add(key2)
+    all_sprites.add(door2)
     scene_changed = True
 
 
