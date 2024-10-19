@@ -1,3 +1,4 @@
+
 import pygame
 import sys
 
@@ -199,7 +200,7 @@ class Door(pygame.sprite.Sprite):
             if player.rect.right > self.rect.left:
                 player.rect.right = self.rect.left
 
-# Create Player, Goomba, Key and Door
+# Creation Player, Goomba, Key and Door
 player = Player()
 goomba = Goomba()
 key = Key(380, 200)
@@ -208,47 +209,48 @@ door = Door(1550, SCREEN_HEIGHT - DOOR_HEIGHT)
 platforms = pygame.sprite.Group()
 spikes = pygame.sprite.Group()
 trampolines = pygame.sprite.Group()
+goombas = pygame.sprite.Group()
 
 # Creation des Platforms
-platform1 = Platform(0, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform2 = Platform(0, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform3 = Platform(200, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform4 = Platform(500, 825, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform5 = Platform(800, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform6 = Platform(1200, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform7 = Platform(1400, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform8 = Platform(1500, 600, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform9 = Platform(1500, 500, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform10 = Platform(1400, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform11 = Platform(1000,300, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform12 = Platform(1200, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform13 = Platform(1000, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform14 = Platform(600, 150, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform15 = Platform(400, 250, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform16 = Platform(200, 250, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-platform17 =  Platform(800, 610, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+platform1 = Platform(0, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform2 = Platform(0, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform3 = Platform(200, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform4 = Platform(500, 825, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform5 = Platform(800, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform6 = Platform(1200, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform7 = Platform(1400, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform8 = Platform(1500, 600, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform9 = Platform(1500, 500, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform10 = Platform(1400, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform11 = Platform(1000,300, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform12 = Platform(1200, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform13 = Platform(1000, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform14 = Platform(600, 150, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform15 = Platform(400, 250, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform16 = Platform(200, 250, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+platform17 =  Platform(800, 610, PLATFORM_WIDTH, PLATFORM_HEIGHT)
 
 platforms.add(platform1, platform2, platform3, platform4, platform5, platform6, platform7, platform8, platform9, platform10, platform11, platform12, platform13, platform14, platform15, platform16, platform17)
 
 # Creation des Spikes
-spike1 = Spike(500, 795)#
-spike2 = Spike(670, 795)#
-spike3 = Spike(1000, 770)#
-spike4 = Spike(970, 770)#
-spike5 = Spike(1030, 770)#
-spike6 = Spike(1410, 370)#
+spike1 = Spike(500, 795)
+spike2 = Spike(670, 795)
+spike3 = Spike(1000, 770)
+spike4 = Spike(970, 770)
+spike5 = Spike(1030, 770)
+spike6 = Spike(1410, 370)
 spike7 = Spike(1150, 970)
-spike8 = Spike(1170, 770)#
-spike9 = Spike(1320, 670)#
-spike10 = Spike(1350, 670)#
-spike11 = Spike(1380, 670)#
-spike12 = Spike(570, 220)#
-spike13 = Spike(1380, 370)#
-spike14 = Spike(1350, 370)#
-spike15 = Spike(1180, 970 )#
-spike16 = Spike(0, 770)#
-spike17 = Spike(30, 770)#
-spike18 = Spike(0, 870)#
+spike8 = Spike(1170, 770)
+spike9 = Spike(1320, 670)
+spike10 = Spike(1350, 670)
+spike11 = Spike(1380, 670)
+spike12 = Spike(570, 220)
+spike13 = Spike(1380, 370)
+spike14 = Spike(1350, 370)
+spike15 = Spike(1180, 970 )
+spike16 = Spike(0, 770)
+spike17 = Spike(30, 770)
+spike18 = Spike(0, 870)
 
 spikes.add(spike1, spike2, spike3, spike4, spike5, spike6, spike7, spike8, spike9, spike10, spike11, spike12, spike13, spike14, spike15, spike16, spike17, spike18)
 
@@ -269,7 +271,7 @@ all_sprites.add(trampolines)
 running = True
 scene_changed = False
 
-# Changement de scene ( qui marche pas ) 
+# Changement de scene
 def create_new_scene():
     global scene_changed
     global key2
@@ -286,21 +288,21 @@ def create_new_scene():
     goomba.rect.x = 50
     goomba.rect.y = 50
     goomba.velocity_y = 0
-    platform1 = Platform(0, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)# 
-    platform2 = Platform(0, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-    platform3 = Platform(0, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-    platform4 = Platform(0, 600, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-    platform5 = Platform(0, 500, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-    platform6 = Platform(0, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-    platform7 = Platform(0, 300, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-    platform8 = Platform(1400,910,PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-    platform10 = Platform(1400, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-    platform11 = Platform(900,600, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-    platform12 = Platform(1200, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-    platform13 = Platform(600, 100, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-    platform14 = Platform(600, 925, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
-    platform15 = Platform(400, 200, PLATFORM_WIDTH, PLATFORM_HEIGHT)# 
-    platform16 = Platform(200, 200, PLATFORM_WIDTH, PLATFORM_HEIGHT)#
+    platform1 = Platform(0, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform2 = Platform(0, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform3 = Platform(0, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform4 = Platform(0, 600, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform5 = Platform(0, 500, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform6 = Platform(0, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform7 = Platform(0, 300, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform8 = Platform(1400,910,PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform10 = Platform(1400, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform11 = Platform(900,600, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform12 = Platform(1200, 400, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform13 = Platform(600, 100, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform14 = Platform(600, 925, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform15 = Platform(400, 200, PLATFORM_WIDTH, PLATFORM_HEIGHT) 
+    platform16 = Platform(200, 200, PLATFORM_WIDTH, PLATFORM_HEIGHT)
     platforms.add(platform1, platform2, platform3, platform4, platform5, platform6, platform7,platform8, platform10, platform11, platform12, platform13, platform14, platform15, platform16)
     new_spike1 = Spike(170, 270)
     new_spike2 = Spike(430, 970)
@@ -334,7 +336,7 @@ def create_new_scene():
     new_spike30 = Spike(1480, 970)
     new_spike31 = Spike(1510, 970)
     new_spike32 = Spike(1540, 970)
-    new_spike33 = Spike(1570, 970)#
+    new_spike33 = Spike(1570, 970)
     new_spike34 = Spike(790, 970)
     new_spike35 = Spike(760, 970)
     new_spike36 = Spike(730, 970)
@@ -365,6 +367,38 @@ def create_new_scene():
     all_sprites.add(key2)
     all_sprites.add(door2)
     scene_changed = True
+
+def create_new_scene2():
+        global key3
+        global door3
+        global scene_changed
+        all_sprites.empty()
+        platforms.empty()
+        spikes.empty()
+        trampolines.empty()
+    
+        player.rect.x = 100
+        player.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
+        goomba3 = Goomba()
+        
+
+        platform1 = Platform(200, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+        platform2 = Platform(600, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+        platform3 = Platform(1000, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+        platforms.add(platform1, platform2, platform3)
+    
+        spike1 = Spike(300, 870)
+        spikes.add(spike1)
+    
+        new_trampoline = Trampoline(1200, 850)
+        trampolines.add(new_trampoline)
+
+        key3 = Key(400, 500)
+        door3 = Door(1550, 900)
+
+        goombas.add(goomba3)
+        all_sprites.add(player, platforms, spikes, trampolines, key3, door3, goomba3)
+        scene_changed = False  
 	
 
 # Game Loop
@@ -378,6 +412,20 @@ while running:
     if door.unlock(player) and not scene_changed:
         create_new_scene()
     door.check_locked(player)
+
+    if not scene_changed:
+        if door.unlock(player):
+            create_new_scene()
+    else:
+        if door2.unlock(player):
+            create_new_scene2()
+
+    if not scene_changed:
+        door.check_locked(player)
+    else:
+        door2.check_locked(player)
+        door.check_locked(player)
+
     if pygame.sprite.collide_rect(player, goomba) and goomba.alive:
         if player.rect.bottom <= goomba.rect.top + 50 and player.velocity_y > 0:
             goomba.die()
