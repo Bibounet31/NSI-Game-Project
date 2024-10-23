@@ -367,7 +367,7 @@ def create_new_scene():
     all_sprites.add(player, goomba, platforms, spikes, trampolines)
     all_sprites.add(key2)
     all_sprites.add(door2)
-    scene_changed = Trueq
+    scene_changed = True
 
 
 def create_new_scene2():
