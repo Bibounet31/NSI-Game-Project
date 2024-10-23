@@ -23,7 +23,7 @@ SPIKE_HEIGHT = 30
 WHITE = (255,255,255)
 BLUE = (0,0,255)
 RED = (255,0,0)
-BROWN = (139,69,19)
+BROWN = (60,0,60)
 YELLOW = (255,255,0)
 LIGHT_GRAY = (169,169,169)
 GRAY = (70,64,64)
@@ -44,7 +44,7 @@ class Platform(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         super().__init__()
         self.image = pygame.Surface((width, height))
-        self.image.fill(BROWN)
+        self.image = pygame.image.load('texture2.png')
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -70,7 +70,8 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.Surface((PLAYER_WIDTH, PLAYER_HEIGHT))
-        self.image.fill(BLUE)
+        self.image = pygame.image.load("texture.png")
+        self.image= pygame.transform.scale(self.image,(PLAYER_WIDTH, PLAYER_HEIGHT))
         self.rect = self.image.get_rect()
         self.rect.x = SCREEN_WIDTH // 2
         self.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
@@ -280,7 +281,7 @@ def create_new_scene():
     platforms.empty()
     spikes.empty()
     trampolines.empty()
-	
+
 
     # Réinitialisation de la position du joueur et du Goomba
     player.rect.x = 250
@@ -366,7 +367,8 @@ def create_new_scene():
     all_sprites.add(player, goomba, platforms, spikes, trampolines)
     all_sprites.add(key2)
     all_sprites.add(door2)
-    scene_changed = True
+    scene_changed = Trueq
+
 
 def create_new_scene2():
         global key3
@@ -435,12 +437,12 @@ while running:
 
     if pygame.sprite.spritecollideany(player, spikes):
         player.take_damage()
-    
+    fond = pygame.image.load("fond.png")
     # Trampoline Bounce power
     for trampoline in trampolines:
         if pygame.sprite.collide_rect(player, trampoline) and player.velocity_y > 0:
             player.velocity_y = -JUMP_STRENGTH - 12  
-    screen.fill(LIGHT_GRAY)
+    screen.blit(fond,(0,0))
     all_sprites.draw(screen)
 
     # Display
