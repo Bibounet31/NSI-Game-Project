@@ -289,6 +289,7 @@ def create_new_scene():
     goomba.rect.x = 50
     goomba.rect.y = 50
     goomba.velocity_y = 0
+    goomba.alive = True
     platform1 = Platform(0, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)
     platform2 = Platform(0, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
     platform3 = Platform(0, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)
