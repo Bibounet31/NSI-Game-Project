@@ -1,6 +1,7 @@
 
 import pygame
 import sys
+import os
 
 pygame.init()
 
@@ -23,7 +24,7 @@ SPIKE_HEIGHT = 30
 WHITE = (255,255,255)
 BLUE = (0,0,255)
 RED = (255,0,0)
-BROWN = (60,0,60)
+BROWN = (100,60,0)
 YELLOW = (255,255,0)
 LIGHT_GRAY = (169,169,169)
 GRAY = (70,64,64)
@@ -32,6 +33,10 @@ GRAVITY = 0.5
 JUMP_STRENGTH = 11
 PLAYER_SPEED = 5
 GOOMBA_SPEED = 3
+music = pygame.mixer.music.load("musique.mp3")
+pygame.mixer.music.play(-1)
+chemin_fichier= os.path.dirname(__file__)
+
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Mario_De_Wish.exe")
@@ -44,7 +49,7 @@ class Platform(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         super().__init__()
         self.image = pygame.Surface((width, height))
-        self.image = pygame.image.load('texture2.png')
+        self.image.fill(BROWN)
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -70,7 +75,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.Surface((PLAYER_WIDTH, PLAYER_HEIGHT))
-        self.image = pygame.image.load("texture.png")
+        self.image = pygame.image.load("pral.png")
         self.image= pygame.transform.scale(self.image,(PLAYER_WIDTH, PLAYER_HEIGHT))
         self.rect = self.image.get_rect()
         self.rect.x = SCREEN_WIDTH // 2
@@ -261,13 +266,7 @@ trampoline1 = Trampoline(800, 600)
 trampolines.add(trampoline1)
 
 all_sprites = pygame.sprite.Group()
-all_sprites.add(player)
-all_sprites.add(goomba)
-all_sprites.add(key)
-all_sprites.add(door)
-all_sprites.add(platforms)
-all_sprites.add(spikes)
-all_sprites.add(trampolines)  
+all_sprites.add(player,goomba,key,door,platforms,spikes,trampolines)
 
 running = True
 scene_changed = False
@@ -281,7 +280,7 @@ def create_new_scene():
     platforms.empty()
     spikes.empty()
     trampolines.empty()
-
+    player.has_key=False
 
     # Réinitialisation de la position du joueur et du Goomba
     player.rect.x = 250
@@ -372,62 +371,77 @@ def create_new_scene():
 
 
 def create_new_scene2():
-        global key3
-        global door3
-        global scene_changed
-        all_sprites.empty()
-        platforms.empty()
-        spikes.empty()
-        trampolines.empty()
+    global scene_changed
+    global door3
+    global key3
+    all_sprites.empty()
+    platforms.empty()
+    spikes.empty()
+    trampolines.empty()
     
-        player.rect.x = 100
-        player.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
-        goomba3 = Goomba()
-        
+    player.rect.x = 100
+    player.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
+    goomba3 = Goomba()
+    player.has_key=False 
 
-        platform1 = Platform(200, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-        platform2 = Platform(600, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-        platform3 = Platform(1000, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)
-        platforms.add(platform1, platform2, platform3)
+    platform1 = Platform(200, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform2 = Platform(600, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platform3 = Platform(1000, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)
+    platforms.add(platform1, platform2, platform3)
     
-        spike1 = Spike(300, 870)
-        spikes.add(spike1)
+    spike1 = Spike(300, 870)
+    spikes.add(spike1)
     
-        new_trampoline = Trampoline(1200, 850)
-        trampolines.add(new_trampoline)
+    new_trampoline = Trampoline(1200, 850)
+    trampolines.add(new_trampoline)
 
-        key3 = Key(400, 500)
-        door3 = Door(1550, 900)
+    key3 = Key(400, 900)
+    door3 = Door(1550, 900)
 
-        goombas.add(goomba3)
-        all_sprites.add(player, platforms, spikes, trampolines, key3, door3, goomba3)
-        scene_changed = False  
+    goombas.add(goomba3)
+    all_sprites.add(player, platforms, spikes, trampolines, key3, door3, goomba3)
+    scene_changed = False  
 	
+def end_game_screen():
+    screen.fill(WHITE)
+    font = pygame.font.SysFont(None, 100)
+    end_text = font.render("Congratulations! You've completed the game!", True, BLACK)
+    screen.blit(end_text, (100, SCREEN_HEIGHT // 2))
+    pygame.display.flip()
+    exit()
 
 # Game Loop
 while running:
+    door3 = Door(1550, 900)  
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
     player.update(platforms)
     goomba.update(platforms)
-    player.collect_key(key if not scene_changed else key2)
+    player.collect_key(key or key3 if not scene_changed else key2)
     if door.unlock(player) and not scene_changed:
         create_new_scene()
     door.check_locked(player)
+    if door3.unlock(player) and not scene_changed:
+        end_game_screen()
+    door3.check_locked(player)
 
     if not scene_changed:
-        if door.unlock(player):
+        if player.has_key and door.unlock(player):
             create_new_scene()
+        if door3.unlock(player):
+            end_game_screen()
     else:
-        if door2.unlock(player):
-            create_new_scene2()
+        if player.has_key and door2.unlock(player):
+            create_new_scene2() 
 
     if not scene_changed:
         door.check_locked(player)
+        door3.check_locked(player)
     else:
         door2.check_locked(player)
-        door.check_locked(player)
+        
+    
 
     if pygame.sprite.collide_rect(player, goomba) and goomba.alive:
         if player.rect.bottom <= goomba.rect.top + 50 and player.velocity_y > 0:
@@ -438,7 +452,7 @@ while running:
 
     if pygame.sprite.spritecollideany(player, spikes):
         player.take_damage()
-    fond = pygame.image.load("fond.png")
+    fond = pygame.image.load("font1.png")
     # Trampoline Bounce power
     for trampoline in trampolines:
         if pygame.sprite.collide_rect(player, trampoline) and player.velocity_y > 0:
