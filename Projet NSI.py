@@ -33,9 +33,11 @@ GRAVITY = 0.5
 JUMP_STRENGTH = 11
 PLAYER_SPEED = 5
 GOOMBA_SPEED = 3
-music = pygame.mixer.music.load("musique.mp3")
+
+chemin_fichier = os.path.dirname(__file__)
+music_path = os.path.join(chemin_fichier, "musique.mp3")
+pygame.mixer.music.load(music_path)
 pygame.mixer.music.play(-1)
-chemin_fichier= os.path.dirname(__file__)
 
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -75,7 +77,8 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.Surface((PLAYER_WIDTH, PLAYER_HEIGHT))
-        self.image = pygame.image.load("pral.png")
+        path = os.path.join(chemin_fichier, "pral.png")
+        self.image = pygame.image.load(path)
         self.image= pygame.transform.scale(self.image,(PLAYER_WIDTH, PLAYER_HEIGHT))
         self.rect = self.image.get_rect()
         self.rect.x = SCREEN_WIDTH // 2
@@ -452,11 +455,13 @@ while running:
 
     if pygame.sprite.spritecollideany(player, spikes):
         player.take_damage()
-    fond = pygame.image.load("font1.png")
+    path = os.path.join(chemin_fichier, "font1.png")
+    
+    fond = pygame.image.load(path)
     # Trampoline Bounce power
     for trampoline in trampolines:
         if pygame.sprite.collide_rect(player, trampoline) and player.velocity_y > 0:
-            player.velocity_y = -JUMP_STRENGTH - 12  
+            player.velocity_y =- JUMP_STRENGTH - 12  
     screen.blit(fond,(0,0))
     all_sprites.draw(screen)
 
