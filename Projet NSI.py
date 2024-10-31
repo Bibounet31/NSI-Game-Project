@@ -1,5 +1,3 @@
-
-
 import pygame
 import sys
 import os
@@ -35,6 +33,7 @@ JUMP_STRENGTH = 11
 PLAYER_SPEED = 5
 GOOMBA_SPEED = 3
 
+# ALLER MUSIQUE
 chemin_fichier = os.path.dirname(__file__)
 music_path = os.path.join(chemin_fichier, "musique.mp3")
 pygame.mixer.music.load(music_path)
@@ -46,6 +45,25 @@ pygame.display.set_caption("Mario_De_Wish.exe")
 
 # Pour les images par secondes
 clock = pygame.time.Clock()
+
+def main_menu():
+    play_button_rect = pygame.Rect(SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50, 200, 100)  # Play button est un rectangle
+    while True:
+        screen.fill(WHITE)
+        pygame.draw.rect(screen, BLUE, play_button_rect)
+        font = pygame.font.Font(None, 74)
+        text = font.render("Play", True, WHITE)
+        screen.blit(text, (play_button_rect.x + 50, play_button_rect.y + 25))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN and play_button_rect.collidepoint(event.pos):
+                return  # Start the game on button click
+
+        pygame.display.flip()
+        clock.tick(60)
 
 # Class Platforme
 class Platform(pygame.sprite.Sprite):
@@ -86,7 +104,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
         self.velocity_y = 0
         self.is_jumping = False
-        self.health = 10000
+        self.health = 1
         self.on_ground = False
         self.has_key = False
 
@@ -131,11 +149,6 @@ class Player(pygame.sprite.Sprite):
         if key is not None and pygame.sprite.collide_rect(self, key):
             self.has_key = True
             key.kill()
-
-    # def collect_key(self, key):
-    #     if pygame.sprite.collide_rect(self, key):
-    #         self.has_key = True
-    #         key.kill()
 
 # Class Goomba
 class Goomba(pygame.sprite.Sprite):
@@ -257,12 +270,12 @@ spike11 = Spike(1380, 670)
 spike12 = Spike(570, 220)
 spike13 = Spike(1380, 370)
 spike14 = Spike(1350, 370)
-spike15 = Spike(1180, 970 )
+spike15 = Spike(1180, 970)
 spike16 = Spike(0, 770)
 spike17 = Spike(30, 770)
 spike18 = Spike(0, 870)
-
-spikes.add(spike1, spike2, spike3, spike4, spike5, spike6, spike7, spike8, spike9, spike10, spike11, spike12, spike13, spike14, spike15, spike16, spike17, spike18)
+spike19 = Spike(970, 570)
+spikes.add(spike1, spike2, spike3, spike4, spike5, spike6, spike7, spike8, spike9, spike10, spike11, spike12, spike13, spike14, spike15, spike16, spike17, spike18, spike19)
 
 # Creation trampolines + add to sprites
 trampoline1 = Trampoline(800, 600)
@@ -275,7 +288,7 @@ all_sprites.add(player,goomba,key,door,platforms,spikes,trampolines)
 running = True
 scene_changed = False
 
-# Changement de scene
+# Changement de scene 1
 def create_new_scene():
     global scene_changed
     global key2
@@ -286,13 +299,15 @@ def create_new_scene():
     trampolines.empty()
     player.has_key=False
 
-    # Réinitialisation de la position du joueur et du Goomba
+    #
     player.rect.x = 250
     player.rect.y = 990
     goomba.rect.x = 50
     goomba.rect.y = 50
     goomba.velocity_y = 0
     goomba.alive = True
+
+    # configuration de la scene 2
     platform1 = Platform(0, 900, PLATFORM_WIDTH, PLATFORM_HEIGHT)
     platform2 = Platform(0, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
     platform3 = Platform(0, 700, PLATFORM_WIDTH, PLATFORM_HEIGHT)
@@ -373,7 +388,7 @@ def create_new_scene():
     all_sprites.add(door2)
     scene_changed = True
 
-
+# changement de scene 2
 def create_new_scene2():
     global scene_changed
     global door3
@@ -382,12 +397,15 @@ def create_new_scene2():
     platforms.empty()
     spikes.empty()
     trampolines.empty()
+    player.has_key=False
     
     player.rect.x = 50
     player.rect.y = 775
-    goomba3 = Goomba()
-    player.has_key=False 
+    goomba.rect.x = 0
+    goomba.rect.y = 590
+    goomba.alive = True
 
+    # configuration de la scene 3
     platform1 = Platform(0, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
     platform2 = Platform(100, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
     platform3 = Platform(500, 800, PLATFORM_WIDTH, PLATFORM_HEIGHT)
@@ -466,7 +484,7 @@ def create_new_scene2():
     spike51 = Spike(370, 270)
     spike52 = Spike(570, 270)
     spike53 = Spike(600, 270)
-    spike54 = Spike(485, 170)#
+    spike54 = Spike(485, 170)
     spike55 = Spike(810, 270)
     spike56 = Spike(780, 270)
     spike57 = Spike(750, 270)
@@ -481,18 +499,20 @@ def create_new_scene2():
     key3 = Key(985, 100)
     door3 = Door(1550, 900)
 
-    goombas.add(goomba3)
-    all_sprites.add(player, platforms, spikes, trampolines, key3, door3, goomba3)
+    all_sprites.add(player, platforms, spikes, trampolines, key3, door3, goomba)
     scene_changed = False  
 	
+# End Screen
 def end_game_screen():
     screen.fill(WHITE)
     font = pygame.font.SysFont(None, 100)
     end_text = font.render("Congratulations! You've completed the game!", True, BLACK)
     screen.blit(end_text, (100, SCREEN_HEIGHT // 2))
     pygame.display.flip()
+    pygame.time.delay(10000)
     exit()
 
+main_menu() 
 # Game Loop
 while running:
     door3 = Door(1550, 900)  
@@ -509,6 +529,7 @@ while running:
         end_game_screen()
     door3.check_locked(player)
 
+    # changements de scenes
     if not scene_changed:
         if player.has_key and door.unlock(player):
             create_new_scene()
@@ -523,9 +544,8 @@ while running:
         door3.check_locked(player)
     else:
         door2.check_locked(player)
-        
-    
 
+    # Mort goomba + goomba damage
     if pygame.sprite.collide_rect(player, goomba) and goomba.alive:
         if player.rect.bottom <= goomba.rect.top + 50 and player.velocity_y > 0:
             goomba.die()
@@ -533,6 +553,7 @@ while running:
         elif player.rect.bottom > goomba.rect.top + 10:
             player.take_damage()
 
+    # Spike damage
     if pygame.sprite.spritecollideany(player, spikes):
         player.take_damage()
     path = os.path.join(chemin_fichier, "font1.png")
