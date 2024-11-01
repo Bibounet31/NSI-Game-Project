@@ -41,7 +41,7 @@ pygame.mixer.music.play(-1)
 
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Mario_De_Wish.exe")
+pygame.display.set_caption("The Very Good Game")
 
 # Pour les images par secondes
 clock = pygame.time.Clock()
@@ -49,11 +49,13 @@ clock = pygame.time.Clock()
 def main_menu():
     play_button_rect = pygame.Rect(SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50, 200, 100)  # Play button est un rectangle
     while True:
-        screen.fill(WHITE)
+        path = os.path.join(chemin_fichier, "TheVeryGoodGame.png")
+        fond = pygame.image.load(path)
+        screen.blit(fond,(0,0))
         pygame.draw.rect(screen, BLUE, play_button_rect)
         font = pygame.font.Font(None, 74)
         text = font.render("Play", True, WHITE)
-        screen.blit(text, (play_button_rect.x + 50, play_button_rect.y + 25))
+        screen.blit(text,(play_button_rect.x + 50, play_button_rect.y + 25))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -556,9 +558,10 @@ while running:
     # Spike damage
     if pygame.sprite.spritecollideany(player, spikes):
         player.take_damage()
+
     path = os.path.join(chemin_fichier, "font1.png")
-    
     fond = pygame.image.load(path)
+    
     # Trampoline Bounce power
     for trampoline in trampolines:
         if pygame.sprite.collide_rect(player, trampoline) and player.velocity_y > 0:
