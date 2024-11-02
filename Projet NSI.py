@@ -106,7 +106,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
         self.velocity_y = 0
         self.is_jumping = False
-        self.health = 1
+        self.health = 1000
         self.on_ground = False
         self.has_key = False
 
@@ -302,7 +302,7 @@ def create_new_scene():
     platforms.empty()
     spikes.empty()
     trampolines.empty()
-    player.has_key=False
+    player.has_key = False
 
     player.rect.x = 250
     player.rect.y = 990
@@ -401,7 +401,7 @@ def create_new_scene2():
     platforms.empty()
     spikes.empty()
     trampolines.empty()
-    player.has_key=False
+    player.has_key = False
     
     player.rect.x = 50
     player.rect.y = 775
@@ -525,29 +525,36 @@ while running:
             running = False
     player.update(platforms)
     goomba.update(platforms)
-    player.collect_key(key or key3 if not scene_changed else key2)
-    if door.unlock(player) and not scene_changed:
-        create_new_scene()
-    door.check_locked(player)
-    if door3.unlock(player) and not scene_changed:
-        end_game_screen()
-    door3.check_locked(player)
+    if scene_changed == 0 and player.has_key == False:
+        player.collect_key(key)
+    else:
+        if scene_changed == 1 and player.has_key == False:
+            player.collect_key(key2)
+        else:
+            if scene_changed == 2 and player.has_key == False:
+                player.collect_key(key3)
 
     # changements de scenes
-    if not scene_changed:
+    if scene_changed == 0:
         if player.has_key and door.unlock(player):
             create_new_scene()
-        if door3.unlock(player):
-            end_game_screen()
     else:
-        if player.has_key and door2.unlock(player):
-            create_new_scene2() 
+        if scene_changed == 1:
+            if player.has_key and door2.unlock(player):
+                create_new_scene2()
+            else:
+                if scene_changed == 2:
+                    if player.has_key and door3.unlock(player):
+                        end_game_screen()
 
-    if not scene_changed:
+    if scene_changed ==0:
         door.check_locked(player)
-        door3.check_locked(player)
     else:
-        door2.check_locked(player)
+        if scene_changed == 1:
+            door2.check_locked(player)
+        else:
+            if scene_changed == 2:
+                door3.check_locked(player)
 
     # Mort goomba + goomba damage
     if pygame.sprite.collide_rect(player, goomba) and goomba.alive:
@@ -568,11 +575,9 @@ while running:
             screen.blit(fond,(0,0))
         else:
             if scene_changed == 2:
-                path = os.path.join(chemin_fichier, "font.png")
+                path = os.path.join(chemin_fichier, "font3.png")
                 fond = pygame.image.load(path)
                 screen.blit(fond,(0,0))
-
-
 
     # Spike damage
     if pygame.sprite.spritecollideany(player, spikes):
