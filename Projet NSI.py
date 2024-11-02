@@ -39,13 +39,14 @@ music_path = os.path.join(chemin_fichier, "musique.mp3")
 pygame.mixer.music.load(music_path)
 pygame.mixer.music.play(-1)
 
-
+# interface graphique
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("The Very Good Game")
 
 # Pour les images par secondes
 clock = pygame.time.Clock()
 
+# Menu d'avant début du jeu
 def main_menu():
     play_button_rect = pygame.Rect(SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50, 200, 100)  # Play button est un rectangle
     while True:
@@ -55,14 +56,14 @@ def main_menu():
         pygame.draw.rect(screen, BLUE, play_button_rect)
         font = pygame.font.Font(None, 74)
         text = font.render("Play", True, WHITE)
-        screen.blit(text,(play_button_rect.x + 50, play_button_rect.y + 25))
+        screen.blit(text,(play_button_rect.x + 50, play_button_rect.y + 25))  
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN and play_button_rect.collidepoint(event.pos):
-                return  # Start the game on button click
+                return  # lance le jeu quand clické
 
         pygame.display.flip()
         clock.tick(60)
@@ -98,7 +99,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.Surface((PLAYER_WIDTH, PLAYER_HEIGHT))
-        path = os.path.join(chemin_fichier, "pral.png")
+        path = os.path.join(chemin_fichier, "MaRiO.png")
         self.image = pygame.image.load(path)
         self.image= pygame.transform.scale(self.image,(PLAYER_WIDTH, PLAYER_HEIGHT))
         self.rect = self.image.get_rect()
@@ -106,30 +107,30 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
         self.velocity_y = 0
         self.is_jumping = False
-        self.health = 1000
+        self.health = 1
         self.on_ground = False
         self.has_key = False
 
     # Update mouvements Player selon la situation
     def update(self, platforms):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_q] and self.rect.x > 0:
+        if keys[pygame.K_q] and self.rect.x > 0: # Aller a gauche
             self.rect.x -= PLAYER_SPEED
-        if keys[pygame.K_d] and self.rect.x < SCREEN_WIDTH - PLAYER_WIDTH:
+        if keys[pygame.K_d] and self.rect.x < SCREEN_WIDTH - PLAYER_WIDTH: # aller a droite
             self.rect.x += PLAYER_SPEED
-        if keys[pygame.K_SPACE] and self.on_ground:
+        if keys[pygame.K_SPACE] and self.on_ground: # sauter
             self.velocity_y = -JUMP_STRENGTH
             self.is_jumping = True
             self.on_ground = False
         self.velocity_y += GRAVITY
         self.rect.y += self.velocity_y
-        self.handle_platform_collisions(platforms)
+        self.handle_platform_collisions(platforms) # peut tenir sur la platforme
         if self.rect.y >= SCREEN_HEIGHT - PLAYER_HEIGHT:
             self.rect.y = SCREEN_HEIGHT - PLAYER_HEIGHT
             self.on_ground = True
             self.velocity_y = 0
 
-    # J'ai passé beaucoup trop de temps sur des platformes en bois
+    # collisions des platformes
     def handle_platform_collisions(self, platforms):
         self.on_ground = False
         for platform in platforms:
@@ -147,10 +148,11 @@ class Player(pygame.sprite.Sprite):
         if self.health > 0:
             self.health -= 1
 
+    # Player peut récupérer la clé
     def collect_key(self, key):
         if key is not None and pygame.sprite.collide_rect(self, key):
             self.has_key = True
-            key.kill()
+            key.kill() # fait disparaitre la clé une fois récupérée
 
 # Class Goomba
 class Goomba(pygame.sprite.Sprite):
@@ -185,6 +187,7 @@ class Goomba(pygame.sprite.Sprite):
                 self.rect.y = SCREEN_HEIGHT - GOOMBA_HEIGHT
                 self.velocity_y = 0
 
+    # Tuer
     def die(self):
         self.alive = False
         self.kill()
@@ -223,6 +226,7 @@ class Door(pygame.sprite.Sprite):
                 return True
         return False
 
+    # collisions des portes
     def check_locked(self, player):
         if self.locked and pygame.sprite.collide_rect(self, player):
             if player.rect.right > self.rect.left:
@@ -234,6 +238,7 @@ goomba = Goomba()
 key = Key(380, 200)
 door = Door(1550, SCREEN_HEIGHT - DOOR_HEIGHT)
 
+# Groupes de sprites
 platforms = pygame.sprite.Group()
 spikes = pygame.sprite.Group()
 trampolines = pygame.sprite.Group()
@@ -304,6 +309,7 @@ def create_new_scene():
     trampolines.empty()
     player.has_key = False
 
+    # réinitialisation des placements des sprites
     player.rect.x = 250
     player.rect.y = 990
     goomba.rect.x = 50
@@ -403,6 +409,7 @@ def create_new_scene2():
     trampolines.empty()
     player.has_key = False
     
+    # réinitialisation des placements des sprites
     player.rect.x = 50
     player.rect.y = 775
     goomba.rect.x = 0
@@ -506,25 +513,27 @@ def create_new_scene2():
     all_sprites.add(player, platforms, spikes, trampolines, key3, door3, goomba)
     scene_changed = 2
 	
-# End Screen
+# création du End Screen
 def end_game_screen():
     screen.fill(WHITE)
-    font = pygame.font.SysFont(None, 100)
-    end_text = font.render("Congratulations! You've completed the game!", True, BLACK)
-    screen.blit(end_text, (100, SCREEN_HEIGHT // 2))
+    path = os.path.join(chemin_fichier, "end_screen.png")
+    fond = pygame.image.load(path)
+    screen.blit(fond,(0,0))
     pygame.display.flip()
-    pygame.time.delay(10000)
-    exit()
+    pygame.time.delay(12000)
+    pygame.quit()
+    sys.exit()
 
 main_menu() 
+
 # Game Loop
-while running:
-    door3 = Door(1550, 900)  
+while running:  
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
     player.update(platforms)
     goomba.update(platforms)
+    # collection des clés selon la scene
     if scene_changed == 0 and player.has_key == False:
         player.collect_key(key)
     else:
@@ -542,11 +551,12 @@ while running:
         if scene_changed == 1:
             if player.has_key and door2.unlock(player):
                 create_new_scene2()
-            else:
-                if scene_changed == 2:
-                    if player.has_key and door3.unlock(player):
-                        end_game_screen()
+        else:
+            if scene_changed == 2:
+                if player.has_key and door3.unlock(player):
+                    end_game_screen()
 
+    # collisions des portes selon la scene
     if scene_changed ==0:
         door.check_locked(player)
     else:
@@ -564,6 +574,7 @@ while running:
         elif player.rect.bottom > goomba.rect.top + 10:
             player.take_damage()
 
+    # chargement de différents fonds d'écrans selon la scene
     if scene_changed == 0:
         path = os.path.join(chemin_fichier, "font1.png")
         fond = pygame.image.load(path)
@@ -589,7 +600,7 @@ while running:
             player.velocity_y =- JUMP_STRENGTH - 12  
     all_sprites.draw(screen)
 
-    # Display
+    # Display point de vies
     font = pygame.font.SysFont(None, 36)
     health_text = font.render(f"Health: {player.health}", True, (0, 0, 0))
     screen.blit(health_text, (10, 10))
@@ -601,5 +612,6 @@ while running:
         print("Game Over!")
         running = False
 
+# close the game
 pygame.quit()
 sys.exit()
