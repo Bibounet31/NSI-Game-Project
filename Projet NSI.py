@@ -158,6 +158,9 @@ class Goomba(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.Surface((GOOMBA_WIDTH, GOOMBA_HEIGHT))
         self.image.fill(RED)
+        path = os.path.join(chemin_fichier, "goomba.png")
+        self.image = pygame.image.load(path)
+        self.image= pygame.transform.scale(self.image,(PLAYER_WIDTH, PLAYER_HEIGHT))
         self.rect = self.image.get_rect()
         self.rect.x = 100
         self.rect.y = SCREEN_HEIGHT - GOOMBA_HEIGHT
@@ -288,7 +291,7 @@ all_sprites = pygame.sprite.Group()
 all_sprites.add(player,goomba,key,door,platforms,spikes,trampolines)
 
 running = True
-scene_changed = False
+scene_changed = 0
 
 # Changement de scene 1
 def create_new_scene():
@@ -301,7 +304,6 @@ def create_new_scene():
     trampolines.empty()
     player.has_key=False
 
-    #
     player.rect.x = 250
     player.rect.y = 990
     goomba.rect.x = 50
@@ -388,7 +390,7 @@ def create_new_scene():
     all_sprites.add(player, goomba, platforms, spikes, trampolines)
     all_sprites.add(key2)
     all_sprites.add(door2)
-    scene_changed = True
+    scene_changed = 1
 
 # changement de scene 2
 def create_new_scene2():
@@ -502,7 +504,7 @@ def create_new_scene2():
     door3 = Door(1550, 900)
 
     all_sprites.add(player, platforms, spikes, trampolines, key3, door3, goomba)
-    scene_changed = False  
+    scene_changed = 2
 	
 # End Screen
 def end_game_screen():
@@ -555,18 +557,31 @@ while running:
         elif player.rect.bottom > goomba.rect.top + 10:
             player.take_damage()
 
+    if scene_changed == 0:
+        path = os.path.join(chemin_fichier, "font1.png")
+        fond = pygame.image.load(path)
+        screen.blit(fond,(0,0))
+    else:
+        if scene_changed == 1:
+            path = os.path.join(chemin_fichier, "font2.png")
+            fond = pygame.image.load(path)
+            screen.blit(fond,(0,0))
+        else:
+            if scene_changed == 2:
+                path = os.path.join(chemin_fichier, "font.png")
+                fond = pygame.image.load(path)
+                screen.blit(fond,(0,0))
+
+
+
     # Spike damage
     if pygame.sprite.spritecollideany(player, spikes):
         player.take_damage()
-
-    path = os.path.join(chemin_fichier, "font1.png")
-    fond = pygame.image.load(path)
     
     # Trampoline Bounce power
     for trampoline in trampolines:
         if pygame.sprite.collide_rect(player, trampoline) and player.velocity_y > 0:
             player.velocity_y =- JUMP_STRENGTH - 12  
-    screen.blit(fond,(0,0))
     all_sprites.draw(screen)
 
     # Display
