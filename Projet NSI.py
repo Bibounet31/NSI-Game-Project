@@ -424,12 +424,108 @@ def create_new_scene():
     all_sprites.add(key2)
     all_sprites.add(door2)
     scene_changed = 1 # la scene a changé une premiere fois
-
-# changement de scene 2
 def create_new_scene2():
     global scene_changed
     global door3
     global key3
+    all_sprites.empty()
+    platforms.empty()
+    spikes.empty()
+    trampolines.empty()
+    player.has_key = False
+    
+    # réinitialisation des placements des sprites
+    player.rect.x = 50
+    player.rect.y = 970
+    goomba.rect.x = 0
+    goomba.rect.y = 590
+    goomba.alive = True
+
+    # configuration de la scene 3
+    
+    platform1 = Platform(1400,900,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform2 = Platform(1150,800,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform3 = Platform(950,800,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform4 = Platform(550,800,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform5 = Platform(400,800,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform6 = Platform(200,800,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform7 = Platform(0,820,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform8 = Platform(0,500,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform9 = Platform(200,500,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform10 = Platform(500,550,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform11 = Platform(800,500,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform12 = Platform(1000,500,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform13 = Platform(1200,500,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform14 = Platform(1400,500,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform15 = Platform(1400,400,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform16 = Platform(1200,300,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform17 = Platform(1000,200,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform18 = Platform(650,200,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform19 = Platform(300,200,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform20 = Platform(100,200,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform21 = Platform(0,200,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+    platform22 = Platform(0,100,PLATFORM_WIDTH,PLATFORM_HEIGHT)
+
+    platforms.add(platform1, platform2, platform3,platform4, platform5, platform6, platform7, platform8, platform9, platform10, platform11, platform12, platform13, platform14, platform15, platform16, platform17, platform18, platform19, platform20, platform21, platform22)
+    
+    spike1 = Spike(275,170)
+    spike2 = Spike(305,170)
+    spike3 = Spike(335,170)
+    spike4 = Spike(735,170)
+    spike5 = Spike(1085,170)
+    spike6 = Spike(1200,270)
+    spike7 = Spike(1230,270)
+    spike8 = Spike(1570,370)
+    spike9 = Spike(1170,470)
+    spike10 = Spike(1200,470)
+    spike11 = Spike(1230,470)
+    spike12 = Spike(940,470)
+    spike13 = Spike(965,470)
+    spike14 = Spike(990,470)
+    spike15 = Spike(1015,470)
+    spike16 = Spike(500,520)
+    spike17 = Spike(670,520)
+    spike18 = Spike(305,470)
+    spike19 = Spike(280,470)
+    spike20 = Spike(255,470)
+    spike21 = Spike(230,470)
+    spike22 = Spike(200,770)
+    spike23 = Spike(230,770)
+    spike24 = Spike(260,770)
+    spike25 = Spike(500,770)
+    spike26 = Spike(530,770)
+    spike27 = Spike(560,770)
+    spike28 = Spike(1080,770)
+    spike29 = Spike(1105,770)
+    spike30 = Spike(1130,770)
+    spike31 = Spike(1155,770)
+    spike32 = Spike(1570,870)
+    spike33 = Spike(1540,870)
+    spike34 = Spike(750,970)
+    spike35 = Spike(780,970)
+    spike36 = Spike(890,970)
+    spike37 = Spike(920,970)
+    spike38 = Spike(350,970)
+    spike39 = Spike(375,970)
+    spike40 = Spike(400,970)
+    spike41 = Spike(425,970)
+    
+    spikes.add(spike1,spike2,spike3,spike4,spike5,spike6,spike7,spike8,spike9,spike10,spike11,spike12,spike13,spike14,spike15,spike16,spike17,spike18,spike19,spike20,spike21,spike22,spike23,spike24,spike25,spike26,spike27,spike28,spike29,spike30,spike31,spike32,spike33,spike34,spike35,spike36,spike37,spike38,spike39,spike40,spike41)
+    
+    new_trampoline = Trampoline(0,810)
+    trampolines.add(new_trampoline)
+
+    key3 = Key(800, 600)
+    door3 = Door(150,0)
+
+    all_sprites.add(player, platforms, spikes, trampolines, key3, door3, goomba)
+    scene_changed = 2
+
+# changement de scene 3
+def create_new_scene3():
+    global scene_changed
+    global door4
+    global key4
 
     # réinitialisation des sprites apres changement de scene
     all_sprites.empty()
@@ -443,7 +539,7 @@ def create_new_scene2():
     # réinitialisation des placements des sprites
     player.rect.x = 50
     player.rect.y = 775
-    goomba.rect.x = 0
+    goomba.rect.x = 50
     goomba.rect.y = 590
     goomba.alive = True
 
@@ -545,12 +641,12 @@ def create_new_scene2():
     trampolines.add(new_trampoline)
 
     # création de clé3 et porte3
-    key3 = Key(985, 100)
-    door3 = Door(1550, 900)
+    key4 = Key(985, 100)
+    door4 = Door(1550, 900)
 
     # ajout des Sprites dans un Sprite group global
-    all_sprites.add(player, platforms, spikes, trampolines, key3, door3, goomba)
-    scene_changed = 2 # la scene a changé une deuxieme fois
+    all_sprites.add(player, platforms, spikes, trampolines, key4, door4, goomba)
+    scene_changed = 3 # la scene a changé une deuxieme fois
 	
 # création du End Screen
 def end_game_screen():
@@ -574,27 +670,34 @@ while running:
     goomba.update(platforms)
 
     # collection des clés selon la scene
-    if scene_changed == 0 and player.has_key == False: # si la scene a changer 0 fois
-        player.collect_key(key) # le joueur peut récupérer la clé
+    if scene_changed == 0 and player.has_key == False:
+        player.collect_key(key)
     else:
-        if scene_changed == 1 and player.has_key == False: #si la scene a changer 1 fois
-            player.collect_key(key2) # le joueur peut récupérer la clé2
+        if scene_changed == 1 and player.has_key == False:
+            player.collect_key(key2)
         else:
-            if scene_changed == 2 and player.has_key == False: # si la scene a changer 2 fois
-                player.collect_key(key3) # le joueur peut récupérer la clé3
+            if scene_changed == 2 and player.has_key == False:
+                player.collect_key(key3)
+            else:
+                if scene_changed == 3 and player.has_key == False:
+                    player.collect_key(key4)
 
     # changements de scenes
-    if scene_changed == 0: # si la scene a changer 0 fois
-        if player.has_key and door.unlock(player): # et si le joueur possede la clé et ouvre la porte
-            create_new_scene() # changement de scene passe a 1
+    if scene_changed == 0:
+        if player.has_key and door.unlock(player):
+            create_new_scene()
     else:
-        if scene_changed == 1: # si la scene a changer 1 fois
-            if player.has_key and door2.unlock(player): # et si le le joueur possede la clé2 et ouvre la porte2
-                create_new_scene2() # changement de scene passe a 2
+        if scene_changed == 1:
+            if player.has_key and door2.unlock(player):
+                create_new_scene2()
         else:
-            if scene_changed == 2: # si la scene a changer 2 fois
-                if player.has_key and door3.unlock(player): # et si le joueur possede la clé3 et ouvre la porte3
-                    end_game_screen() # le joueur a terminé le jeu et accede a l'écran de fin
+            if scene_changed == 2:
+                if player.has_key and door3.unlock(player):
+                    create_new_scene3()
+            else:
+                if scene_changed == 3:
+                    if player.has_key and door4.unlock(player):
+                        end_game_screen()
 
     # collisions des portes selon la scene
     if scene_changed ==0:
@@ -605,6 +708,9 @@ while running:
         else:
             if scene_changed == 2:
                 door3.check_locked(player)
+            else:
+                if scene_changed == 3:
+                    door4.check_locked(player)
 
     # Mort goomba + goomba damage
     if pygame.sprite.collide_rect(player, goomba) and goomba.alive:
@@ -615,20 +721,23 @@ while running:
             player.take_damage() # le joueur prend un dégat et décède
 
     # chargement de différents fonds d'écrans selon la scene
-    if scene_changed == 0: # si la scene a changer 0 fois , on charge le font1
-        path = os.path.join(chemin_fichier, "font1.png") 
+    if scene_changed == 0:
+        path = os.path.join(chemin_fichier, "font1.png")
         fond = pygame.image.load(path)
         screen.blit(fond,(0,0))
-    else: 
-        if scene_changed == 1: # si la scene a changer 1 fois , on chargele font2
+    else:
+        if scene_changed == 1:
             path = os.path.join(chemin_fichier, "font2.png")
             fond = pygame.image.load(path)
             screen.blit(fond,(0,0))
         else:
-            if scene_changed == 2: # si la scene a changer 2 fois , on charge le font3
-                path = os.path.join(chemin_fichier, "font3.png")
-                fond = pygame.image.load(path)
-                screen.blit(fond,(0,0))
+            if scene_changed == 2:
+                screen.fill(LIGHT_GRAY)
+            else:
+                if scene_changed == 3:
+                    path = os.path.join(chemin_fichier, "font3.png")
+                    fond = pygame.image.load(path)
+                    screen.blit(fond,(0,0))
 
     # Spike damage
     if pygame.sprite.spritecollideany(player, spikes): # si le joueur entre entre en collision avec le spike
