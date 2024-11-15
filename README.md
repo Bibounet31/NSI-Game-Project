@@ -25,7 +25,7 @@ PADDLE_SPEED = 12
 
 # Ball settings
 BALL_SIZE = 30
-initial_ball_speed = 3  # Initial speed
+initial_ball_speed = 5  # Initial speed
 ball_speed_increment = 0.5  # Speed increase on paddle hit
 ball_speed_x, ball_speed_y = initial_ball_speed, initial_ball_speed
 
